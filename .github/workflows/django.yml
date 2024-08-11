@@ -2,9 +2,9 @@ name: Django CI
 
 on:
   push:
-    paths-ignore:
-      - 'helm/*'
     branches: [ "main" ]
+    paths-ignore:
+       - 'helm/*'
   pull_request:
       branches: [ "main" ]
 
