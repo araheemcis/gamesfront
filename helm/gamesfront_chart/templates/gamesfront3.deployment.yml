@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gamesfront3--deployment
+  labels:
+    app: gamesfront3
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gamesfront3
+  template:
+    metadata:
+      labels:
+        app: gamesfront3
+    spec:
+      containers:
+      - name: gamesfront3
+        image: {{ .Values.image.repository2 }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 8000
+

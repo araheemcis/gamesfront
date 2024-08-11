@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gamesfront3
+spec:
+  selector:
+      app: gamesfront3
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8000
+#      nodePort: 31134
+#  type: NodePort
+

@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gamesfront2ingress
+  namespace: default
+  annotations:
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "ingress-lb-1037274142.us-east-1.elb.amazonaws.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/guessgame/hello/"
+        backend:
+          service:
+            name: gamesfront2
+            port:
+              number: 8080
+      
+
+
+      - path: /guessgame/contact/
+        pathType: Prefix
+        backend:
+           service:
+              name: gamesfront3
+              port:
+                number: 8080
