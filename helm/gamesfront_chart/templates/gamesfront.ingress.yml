@@ -20,10 +20,3 @@ spec:
       
 
 
-      - path: /guessgame/contact/
-        pathType: Prefix
-        backend:
-           service:
-              name: gamesfront3
-              port:
-                number: 8080
