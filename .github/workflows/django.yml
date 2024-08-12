@@ -75,7 +75,7 @@ jobs:
 
     - name: Update tag in Helm chart
       run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/gamesfront/values.yaml
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/gamesfront_chart/values.yaml
     #- name: Commit and push changes
      # run: |
       #  git config --global user.email "araheemcis@gmail.com"
