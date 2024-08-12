@@ -14,7 +14,7 @@ spec:
         path: "/guessgame/hello/"
         backend:
           service:
-            name: gamesfront2
+            name: gamesfront
             port:
               number: 8080
       
