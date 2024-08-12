@@ -1,40 +1,49 @@
-name: Django CI
+name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
     paths-ignore:
-       - 'helm/*'
+          - 'Read.md'
+          - '.github/*'
+          - 'helm/*'
+    branches:
+      - main
+          
   pull_request:
-      branches: [ "main" ]
+    branches: [ "main" ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.8
+
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-  
-#  push_to_docker:
-#    runs-on: ubuntu-latest
+    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    #- name: Update dependency graph
+     # uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+     #
+  #push_to_docker_hub:
+  #  runs-on: ubuntu-latest
 
-#    needs: build
+  #  needs: build
 
- #   steps:
+   # steps:
+  #  - name: Checkout repository
+  #    uses: actions/checkout@v4
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
@@ -47,16 +56,16 @@ jobs:
     - name: Build and Push action
       uses: docker/build-push-action@v6
       with:
-         context: .
-         file: Dockerfile
-         push: true
-         tags: ${{ secrets.DOCKER_USEERNAME }}/calculatorapp:${{github.run_id}}
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_USEERNAME }}/gamesfront:${{github.run_id}}
         
     
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
 
-    needs: push_to_docker
+    needs: build
 
     steps:
     - name: Checkout repository
@@ -66,7 +75,14 @@ jobs:
 
     - name: Update tag in Helm chart
       run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/calculator_chart/values.yaml
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/gamesfront/values.yaml
+    #- name: Commit and push changes
+     # run: |
+      #  git config --global user.email "araheemcis@gmail.com"
+       # git config --global user.name "Abdul Raheem"
+        #git add helm/calculator_chart/values.yaml
+        #git commit -m "Update tag in Helm chart"
+        #git push
     
 
     - name: Commit and push changes
