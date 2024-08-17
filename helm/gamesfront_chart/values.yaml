@@ -7,7 +7,7 @@ replicaCount: 1
 image:
    repository1: araheemcis/gamesfront
    repository2: araheemcis/python-django-gamesfront3
-   tag: "10434766230"
+   tag: "10434769948"
 
 
 
